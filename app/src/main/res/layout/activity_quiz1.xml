@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Quiz1"
+    android:orientation="vertical"
+    android:layout_margin="25dp"
+    android:gravity="center">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="22dp"
+        android:text="Quiz 1"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="320dp"
+        android:src="@drawable/javascript" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lequel de ces noms est un framework JavaScript populaire ?"
+        android:layout_gravity="center"
+        android:textSize="22sp"
+        android:id="@+id/tvQ1"/>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="40dp"
+        android:gravity="center"
+        android:id="@+id/radioGroup">
+
+        <RadioButton
+            android:id="@+id/rb1"
+            android:layout_width="152dp"
+            android:layout_height="wrap_content"
+            android:text="Laravel"
+            android:textSize="20sp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="React"
+            android:id="@+id/rb2"
+            android:textSize="20sp"/>
+
+    </RadioGroup>
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:id="@+id/bNext"
+        android:layout_margin="10dp"
+
+        />
+
+</LinearLayout>
