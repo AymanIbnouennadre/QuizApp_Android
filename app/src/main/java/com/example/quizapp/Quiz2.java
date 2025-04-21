@@ -1,60 +1,91 @@
 package com.example.quizapp;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Quiz2 extends AppCompatActivity {
 
-    RadioGroup rg;
-    RadioButton rb;
-    Button bNext;
+    TextView tvQuestion;
+    RadioGroup radioGroup;
+    RadioButton rb1, rb2;
+    ImageView quizImage;
+    Button bNext, bExit;
+    FirebaseFirestore db;
+
+    String correctAnswer = "";
     int score;
-    String RepCorrect="Microsoft";
-    @SuppressLint("MissingInflatedId")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz2);
-        rg=findViewById(R.id.rg);
-        bNext=findViewById(R.id.bNext);
-        Intent intent=getIntent();
-        score=intent.getIntExtra("score",0) ;
-        //Toast.makeText(getApplicationContext(),score+"",Toast.LENGTH_SHORT).show();
-        bNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rb=(RadioButton) findViewById(rg.getCheckedRadioButtonId());
-                if(rg.getCheckedRadioButtonId()==-1){
-                    Toast.makeText(getApplicationContext(),"Merci de choisir une réponse S.V.P !",Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    //Toast.makeText(getApplicationContext(),rb.getText().toString(),Toast.LENGTH_SHORT).show();
-                    if(rb.getText().toString().equals(RepCorrect)){
-                        score+=1;
-                        //Toast.makeText(getApplicationContext(),score+"",Toast.LENGTH_SHORT).show();
-                    }
-                    Intent intent=new Intent(Quiz2.this,Quiz3.class);
-                    intent.putExtra("score",score);
-                    startActivity(intent);
-                    //overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                    overridePendingTransition(R.anim.exit,R.anim.entry);
-                    finish();
-                }
 
+        // Liaison des vues
+        tvQuestion = findViewById(R.id.tvQ2);
+        radioGroup = findViewById(R.id.rg);
+        rb1 = findViewById(R.id.rb1);
+        rb2 = findViewById(R.id.rb2);
+        quizImage = findViewById(R.id.quizImage);
+        bNext = findViewById(R.id.bNext);
+        bExit = findViewById(R.id.bexit);
+
+        score = getIntent().getIntExtra("score", 0);
+        db = FirebaseFirestore.getInstance();
+
+        // Charger les données de Firestore
+        db.collection("quizzes").document("2").get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                QuizModel quiz = documentSnapshot.toObject(QuizModel.class);
+                if (quiz != null) {
+                    tvQuestion.setText(quiz.getQuestion());
+                    String correct = quiz.getCorrectAnswer();
+                    String incorrect = quiz.getFalseAnswer();
+
+                    if (Math.random() > 0.5) {
+                        rb1.setText(correct);
+                        rb2.setText(incorrect);
+                    } else {
+                        rb1.setText(incorrect);
+                        rb2.setText(correct);
+                    }
+
+                    correctAnswer = correct;
+
+                    int resId = getResources().getIdentifier(quiz.getImage(), "drawable", getPackageName());
+                    quizImage.setImageResource(resId);
+                }
             }
         });
 
+        bNext.setOnClickListener(v -> {
+            int selectedId = radioGroup.getCheckedRadioButtonId();
+            if (selectedId == -1) {
+                Toast.makeText(this, "Veuillez sélectionner une réponse", Toast.LENGTH_SHORT).show();
+            } else {
+                RadioButton selected = findViewById(selectedId);
+                if (selected.getText().toString().equals(correctAnswer)) {
+                    score++;
+                }
+                Intent intent = new Intent(Quiz2.this, Quiz3.class);
+                intent.putExtra("score", score);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        bExit.setOnClickListener(v -> {
+            startActivity(new Intent(Quiz2.this, Home.class));
+            finish();
+        });
     }
 }

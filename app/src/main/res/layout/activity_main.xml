@@ -6,14 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical"
-    android:layout_margin="30dp"
-    android:gravity="center">
+    android:padding="30dp"
+
+    android:gravity="center"
+    android:background="@drawable/bg_gradient"
+    >
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="354dp"
-        android:src="@drawable/ayman"
-        android:layout_marginBottom="24dp" /> <!-- Marge ajoutée ici -->
+        android:layout_width="331dp"
+        android:layout_height="339dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="24dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ayman" /> <!-- Marge ajoutée ici -->
 
     <EditText
         android:layout_width="match_parent"
@@ -35,11 +40,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sign in"
-        android:id="@+id/bLogin"/>
+        android:id="@+id/bLogin"
+        android:backgroundTint="#FF6B6B"/>
 
+    <!-- Message au-dessus -->
     <TextView
         android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        android:text="Pas encore de compte ?"
+        android:textSize="18sp" />
+
+    <!-- Bouton d'inscription -->
+    <Button
+        android:id="@+id/tvRegister"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To register click here"
-        android:id="@+id/tvRegister"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_second"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="12dp"
+        android:text="Créer un compte"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
 </LinearLayout>

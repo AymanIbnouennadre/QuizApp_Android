@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Quand pressé -->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFA07A"/> <!-- saumon appuyé -->
+            <corners android:radius="24dp"/>
+        </shape>
+    </item>
+
+    <!-- Normal -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFCBA4"/> <!-- pêche pastel -->
+            <corners android:radius="24dp"/>
+        </shape>
+    </item>
+</selector>

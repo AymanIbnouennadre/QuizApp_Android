@@ -8,51 +8,56 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
-    // step 1 : Déclaration
-    EditText etEmail , etPassword;
+
+    EditText etEmail, etPassword;
     Button bLogin;
     TextView tvRegister;
+    FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main); //permet d'afficher
-    // Step 2 : Récupération des ids
-     etEmail = findViewById(R.id.etEmail);
-     etPassword = findViewById(R.id.etPassword);
-     bLogin = findViewById(R.id.bLogin);
-     tvRegister = findViewById(R.id.tvRegister);
-     //Step 3 : Association de Listners
+        setContentView(R.layout.activity_main);
 
-      bLogin.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              // Step 4 Traitement
-              if((etEmail.getText().toString().equals("ayman") || etEmail.getText().toString().equals("ayman.ibnouennadre@gmail.com") ) && etPassword.getText().toString().equals("123")){
-                  startActivity(new Intent(MainActivity.this, Quiz1.class));
-              }
-              else {
-                  Toast.makeText(getApplicationContext(), "email or password incorrect", Toast.LENGTH_SHORT).show();
-              }
+        // Étape 1 : Initialisation
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPassword);
+        bLogin = findViewById(R.id.bLogin);
+        tvRegister = findViewById(R.id.tvRegister);
+        mAuth = FirebaseAuth.getInstance();
 
-          }
-      });
+        // Étape 2 : Login
+        bLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = etEmail.getText().toString().trim();
+                String password = etPassword.getText().toString().trim();
 
-      tvRegister.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              // step 4 Traitement
-              startActivity(new Intent(getApplicationContext(), Register.class));
-          }
-      });
+                if (email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
+                mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                startActivity(new Intent(MainActivity.this, Home.class));
+                                finish();
+                            } else {
+                                Toast.makeText(MainActivity.this, "Email ou mot de passe incorrect", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
 
+        // Étape 3 : Aller vers la page d'inscription
+        tvRegister.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, Register.class));
+        });
     }
 }
