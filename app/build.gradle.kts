@@ -42,6 +42,20 @@ dependencies {
     // ✅ Firebase Auth
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    // Maps
+    implementation("org.osmdroid:osmdroid-android:6.1.16")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation ("org.maplibre.gl:android-sdk:9.5.0")
+    implementation(libs.play.services.maps)
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.google.code.gson:gson:2.10.1")
+
+
+
+
+
+
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

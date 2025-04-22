@@ -11,12 +11,12 @@
 
     <!-- Image -->
     <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/ayman"
+        android:layout_width="341dp"
+        android:layout_height="266dp"
+        android:layout_gravity="center"
         android:layout_marginBottom="24dp"
         android:scaleType="centerCrop"
-        android:layout_gravity="center" />
+        android:src="@drawable/ayman1" />
 
     <!-- Texte principal -->
     <TextView
